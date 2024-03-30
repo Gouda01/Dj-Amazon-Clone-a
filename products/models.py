@@ -66,5 +66,5 @@ class Review (models.Model):
     created_at = models.DateTimeField(_('created_at'), default=timezone.now)
 
     def __str__(self):
-        return f"{str(self.user)} - {str(self.product)} - {self.rate}" 
+        return f"{str(self.user)} - {str(self.product)} - {self.rate}"
     
