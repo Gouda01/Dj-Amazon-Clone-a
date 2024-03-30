@@ -2,6 +2,7 @@ from django.db import models
 from taggit.managers import TaggableManager
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.text import slugify
 
 
 
@@ -23,7 +24,11 @@ class Product (models.Model):
     description = models.TextField(max_length=50000)
     tags = TaggableManager()
     brand = models.ForeignKey('Brand', related_name='product_brand', on_delete=models.SET_NULL, null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+       self.slug = slugify(self.name)
+       super(Product, self).save(*args, **kwargs) # Call the real save() method
 
 
 
@@ -37,6 +42,11 @@ class ProductImages (models.Model):
 class Brand (models.Model):
     name = models.CharField(max_length = 100)
     image = models.ImageField(upload_to='brand')
+    slug = models.SlugField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+       self.slug = slugify(self.name)
+       super(Brand, self).save(*args, **kwargs) # Call the real save() method
 
 
 
