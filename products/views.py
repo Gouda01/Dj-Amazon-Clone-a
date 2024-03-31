@@ -7,7 +7,7 @@ from .models import Product, Brand, Review, ProductImages
 # Create your views here.
 class ProductList (ListView):
     model = Product
-    paginate_by = 152
+    paginate_by = 52
 
 
 class ProductDetail (DetailView):
