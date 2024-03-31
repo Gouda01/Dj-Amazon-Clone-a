@@ -62,7 +62,7 @@ class Review (models.Model):
     user = models.ForeignKey(User, related_name='review_user', on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('user'))
     product = models.ForeignKey(Product, related_name='review_product', on_delete=models.CASCADE, verbose_name=_('product'))
     review = models.TextField(_('review'), max_length=500)
-    rate = models.IntegerField(_('rate'), choices=[(i,i) for i in range(1,6)])
+    rate = models.IntegerField(_('rate'), choices=[(i,i) for i in range(1,5)])
     created_at = models.DateTimeField(_('created_at'), default=timezone.now)
 
     def __str__(self):
