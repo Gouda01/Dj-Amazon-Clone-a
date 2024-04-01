@@ -1,4 +1,5 @@
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Product, Brand, Review, ProductImages
 from . import serializers
@@ -9,6 +10,8 @@ from .pagination import MyPagination
 class ProductListApi(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['flag', 'brand']
     
     
 class ProductDetailApi(generics.RetrieveAPIView):
