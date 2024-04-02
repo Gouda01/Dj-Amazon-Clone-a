@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.db.models.aggregates import Count
 
 from .models import Product, Brand, Review, ProductImages
 
@@ -25,6 +26,9 @@ class BrandList (ListView) :
     model = Brand
     paginate_by = 20
 
+    queryset = Brand.objects.annotate(product_count=Count('product_brand'))
+
+
 
 class BrandDetail (ListView) :
     model = Product
@@ -38,7 +42,7 @@ class BrandDetail (ListView) :
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["brand"] = Brand.objects.get(slug=self.kwargs['slug'])
+        context["brand"] = Brand.objects.filter(slug=self.kwargs['slug']).annotate(product_count=Count('product_brand'))[0]
         return context
     
     
