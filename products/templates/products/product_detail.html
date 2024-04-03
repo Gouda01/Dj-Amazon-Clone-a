@@ -64,12 +64,12 @@
                                 <p>BRAND:<a href="#">{{ object.brand }}</a></p>
                             </div>
                             <div class="details-rating">
-                                <i class="active icofont-star"></i>
-                                <i class="active icofont-star"></i>
-                                <i class="active icofont-star"></i>
-                                <i class="active icofont-star"></i>
-                                <i class="icofont-star"></i>
-                                <a href="#">(3 reviews)</a>
+                                <i class="icofont-star {% if object.avg_rate > 0 %}active{% endif %}"></i>
+                                <i class="icofont-star {% if object.avg_rate > 1 %}active{% endif %}"></i>
+                                <i class="icofont-star {% if object.avg_rate > 2 %}active{% endif %}"></i>
+                                <i class="icofont-star {% if object.avg_rate > 3 %}active{% endif %}"></i>
+                                <i class="icofont-star {% if object.avg_rate > 4 %}active{% endif %}"></i>
+                                <a href="#">({{ object.review_count }} reviews)</a>
                             </div>
                             <h3 class="details-price">
                                 <span>${{ object.price }}</span>
@@ -138,7 +138,7 @@
                         </div>
                         
                         <div class="product-details-frame">
-                            <h3 class="frame-title">Reviews (2)</h3>
+                            <h3 class="frame-title">Reviews ({{ object.review_count }})</h3>
                             <ul class="review-list">
                                 
                                 
@@ -156,11 +156,13 @@
                                         </h5>
                                     </div>
                                     <ul class="review-rating">
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rate-blank"></li>
+                                        <li class="icofont-ui-{% if review.rate > 0 %}rating{% else %}rate-blank{% endif %}"></li>
+                                        <li class="icofont-ui-{% if review.rate > 1 %}rating{% else %}rate-blank{% endif %}"></li>
+                                        <li class="icofont-ui-{% if review.rate > 2 %}rating{% else %}rate-blank{% endif %}"></li>
+                                        <li class="icofont-ui-{% if review.rate > 3 %}rating{% else %}rate-blank{% endif %}"></li>
+                                        <li class="icofont-ui-{% if review.rate > 4 %}rating{% else %}rate-blank{% endif %}"></li>
+                                        
+                                
                                     </ul>
                                     <p class="review-desc">{{ review.review }}</p>
                                     
