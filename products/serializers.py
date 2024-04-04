@@ -34,10 +34,6 @@ class ProductDetailSerializer(serializers.ModelSerializer) :
         # fields = '__all__'
         fields = ['id','name','flag','price','image','images','sku','subtitle','description','brand','reviews','review_count','avg_rate']
 
-    
-
-    
-    
         
 
 class BrandListSerializer(serializers.ModelSerializer) :
