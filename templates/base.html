@@ -114,10 +114,22 @@
                     <a href="index.html" class="header-logo">
                         <img src="{{ settings_data.logo.url }}" alt="logo">
                     </a>
+                    
+                    
+                    {% if user.is_authenticated %}
+                        
                     <a href="login.html" class="header-widget" title="My Account">
                         <img src="{% static 'en/images/user.png' %}" alt="user">
-                        <span>join</span>
+                        <span>{{ user.username }}</span>
                     </a>
+                    {% else %}
+                    <a href="login.html" class="header-widget" title="My Account">
+                        <span>Login</span>
+                    </a>
+                    <a href="login.html" class="header-widget" title="My Account">
+                        &emsp;<span>Sign Up</span>
+                    </a>
+                    {% endif %}
 
                     <form class="header-form">
                         <input type="text" placeholder="Search anything...">
