@@ -16,8 +16,9 @@ ORDER_STATUS = (
     ('Shipped','Shipped'),
     ('Delivered','Delivered'),
 )
+
 class Order (models.Model):
-    user = models.ForeignKey(User, 'order_owner', on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(User, related_name='order_owner', on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(choices=ORDER_STATUS, max_length=15)
     code =models.CharField(default=generate_code, max_length=8)
     order_time = models.DateTimeField(default=timezone.now)
