@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import status
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 import datetime
@@ -7,6 +8,7 @@ import datetime
 from .models import Cart, CartDetail, Order, OrderDetail, Coupon
 from products.models import Product
 from settings.models import DeliveryFee
+from accounts.models import Address
 from . import serializers
 
 
@@ -55,9 +57,59 @@ class ApplyCouponAPI(generics.GenericAPIView) :
                 coupon.quantity -= 1
                 coupon.save()
 
-                return Response({'message':'Coupon was applied successfully'})
+                return Response({'message':'Coupon was applied successfully'}, status=status.HTTP_200_OK)
             
             else :
                 return Response({'message':'Coupon is invalid or expires'})
             
         return Response({'message':'Coupon not found'})
+
+
+
+
+class CreateOrderAPI(generics.GenericAPIView):
+    
+    def post(self,request,*args, **kwargs):
+        user = User.objects.get(username=self.kwargs['username'])
+        code = request.data['payment_code']
+        address = request.data['address_id']
+
+        cart = Cart.objects.get(user=user, status='Inprogress')
+        cart_detail = CartDetail.objects.filter(cart=cart)
+        user_address = Address.objects.get(id=address)
+
+        # cart : order  | cart_detail : order_detail
+        new_order = Order.objects.create(
+            user = user,
+            status = 'Recieved',
+            code = code,
+            address = user_address,
+            coupon = cart.coupon,
+            total_with_coupon = cart.total_with_coupon,
+            total = cart.cart_total
+        )
+
+        # Order detail
+        for item in cart_detail:
+            product = Product.objects.get(id=item.product.id)
+            OrderDetail.objects.create(
+                order = new_order,
+                product = product,
+                quantity = item.quantity,
+                price = product.price,
+                total = round(item.quantity * product.price , 2)
+            )
+            product.quantity -= item.quantity
+            product.save()
+        
+        # Close Cart
+        cart.status = 'Completed'
+
+        # Send Email 
+        #
+
+        return Response({'message':'Order was created successfully'},status=status.HTTP_201_CREATED)
+
+
+class CartCreateUpdateDeleteAPI(generics.GenericAPIView):
+    pass
