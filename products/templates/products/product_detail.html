@@ -94,20 +94,27 @@
                             </div>
                             <div class="details-add-group">
 
-                                <form action="/orders/add-to-cart" method="post" class="row">
-                                    {% csrf_token %}
-                                    <div class="col-lg-6">
-                                        <input type="number" class="action-input" name="quantity" value="1">
-                                        <input type="hidden" name="product_id" value="{{ object.id }}">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <button class="product-add" title="Add to Cart">
-                                            <i class="fas fa-shopping-basket"></i>
-                                            <span>add to cart</span>
-                                        </button>
-                                    </div>
+                                
+                                {% if object.quantity > 0 %}
+                                    <form action="/orders/add-to-cart" method="post" class="row">
+                                        {% csrf_token %}
+                                        <div class="col-lg-6">
+                                            <input type="number" class="action-input" name="quantity" value="1">
+                                            <input type="hidden" name="product_id" value="{{ object.id }}">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button class="product-add" title="Add to Cart">
+                                                <i class="fas fa-shopping-basket"></i>
+                                                <span>add to cart</span>
+                                            </button>
+                                        </div>
+                                        
+                                    </form>  
+                                {% else %}
+                                    <h2>Out of Stock</h2>
+                                {% endif %}
                                     
-                                </form>
+                               
                                 
                             </div>
                             <div class="details-action-group">
