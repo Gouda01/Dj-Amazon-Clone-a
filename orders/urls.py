@@ -10,9 +10,11 @@ urlpatterns = [
     path('add-to-cart', add_to_cart),
 
 
-
     # Api Urls
     path('api/<str:username>/orders', api.OrderListAPI.as_view()),
     path('api/<str:username>/orders/<int:pk>', api.OrderDetailAPI.as_view()),
     path('api/<str:username>/apply-coupon', api.ApplyCouponAPI.as_view()),
+
+    path('api/<str:username>/cart', api.CartCreateUpdateDeleteAPI.as_view()),
+    path('api/<str:username>/orders/create', api.CreateOrderAPI.as_view()),
 ]

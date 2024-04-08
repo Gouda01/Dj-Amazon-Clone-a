@@ -61,12 +61,6 @@ def checkout(request):
         })
 
 
-                
-
-    
-
-    
-
 
 
 def add_to_cart(request) :
