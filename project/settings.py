@@ -159,4 +159,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+
+AUTHENTICATION_BACKENDS = [
+    'accounts.backend.EmailOrUsernameLogin'
+]
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
