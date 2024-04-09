@@ -12,7 +12,6 @@ class Profile (models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile')
     code = models.CharField(max_length=20, default=generate_code)
-    active = models.BooleanField(default=False)
 
 
     def __str__(self):
