@@ -63,7 +63,7 @@ def seed_product_images (n):
     for _ in range(n):
         ProductImages.objects.create (
             product = products[random.randint(0,len(products)-1)],
-            image = f"product_image/{images[random.randint(0,9)]}"
+            image = f"productimages/{images[random.randint(0,9)]}"
         )
     print(f"{n} Product images was added successfuly")
 
