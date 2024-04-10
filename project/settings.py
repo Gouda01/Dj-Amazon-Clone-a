@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
+    # My App :
+    'accounts',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,13 +48,14 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'debug_toolbar',
+    'django_bootstrap5',
 
 
     # My Apps :
     'products',
     'settings',
     'orders',
-    'accounts',
+    
 ]
 
 MIDDLEWARE = [
