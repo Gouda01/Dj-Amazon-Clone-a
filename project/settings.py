@@ -81,6 +81,7 @@ REST_AUTH = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",  # Add for translate and change language
     'django.middleware.common.CommonMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -197,6 +198,13 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = [
     'accounts.backend.EmailOrUsernameLogin'
+]
+
+# Translation :
+LOCALE_PATHS = ['locale']
+LANGUAGES = [
+    ("ar", "Arabic"),
+    ("en", "English"),
 ]
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

@@ -1,0 +1,20 @@
+# Start docker kernal + python :
+FROM python:3.11.9-bullseye
+
+# To show logs while install python :
+ENV PYTHONUNBUFFERED = 1
+
+# To update kernal linux:
+RUN apt-get update && apt-get -y install gcc libpq-dev
+
+# Make folder to my project 
+WORKDIR /store-app
+
+#Copy requirements file to the new folder
+COPY requirements.txt /store-app/requirements.txt
+
+# install requirements:
+RUN pip install -r /store-app/requirements.txt
+
+#Copy all project files :
+COPY . /store-app/
