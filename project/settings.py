@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     'taggit',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
     'debug_toolbar',
     'django_bootstrap5',
+    
 
 
     # My Apps :
@@ -164,7 +166,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
