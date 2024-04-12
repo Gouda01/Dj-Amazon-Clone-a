@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
-from django.db.models.aggregates import Count
+from django.db.models.aggregates import Count, Sum
 from django.contrib.auth.models import User
 
 from .forms import SignupForm, UserActivateForm
@@ -77,10 +77,27 @@ def dashboard (request):
 
     brand_name = []
     brand_products = []
+
+    product = []
+    rate = []
+
     brands = Brand.objects.all().annotate(product_count=Count('product_brand')).order_by('-product_count')[:10]
+
+    # reviews = Review.objects.values('product').annotate(total_rate=Sum('rate')).order_by('-total_rate')[:10]
+    
+    test = Review.objects.values('product__name').annotate(total_rate=Sum('rate')).order_by('-total_rate')[:10]
+
     for brand in brands:
         brand_name.append(brand.name)
         brand_products.append(brand.product_count)
+
+    for item in test:
+        product.append(item['product__name'])
+        rate.append(item['total_rate'])
+
+    print(test)
+
+    
 
     return render (request,'accounts/dashboard.html',{
         'new' :new,
@@ -89,4 +106,7 @@ def dashboard (request):
 
         'brand_name' :brand_name,
         'brand_products' :brand_products,
+
+        'product' :product,
+        'rate' :rate,
     })

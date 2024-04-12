@@ -30,6 +30,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col col-6">
+                    <div class="container my-5">
+                        <h4>Best 10 Product reviews</h4>
+                        <canvas id="myChart3"></canvas>
+                    </div>
+                </div>
+            </div>
             
             
         </section>
@@ -76,6 +84,28 @@
       datasets: [{
         label: '# of Votes',
         data: ["{{ new | length }}", "{{sale}}", "{{feature}}"],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+  const ctx3 = document.getElementById('myChart3');
+
+  new Chart(ctx3, {
+    type: 'polarArea',
+    data: {
+      labels: {{ product|safe }},
+      datasets: [{
+        label: '# of Votes',
+        data: {{ rate|safe }},
         borderWidth: 1
       }]
     },
