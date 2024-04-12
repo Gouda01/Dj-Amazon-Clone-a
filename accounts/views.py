@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
+from django.db.models.aggregates import Count
 from django.contrib.auth.models import User
 
 from .forms import SignupForm, UserActivateForm
 from .models import Profile
+from products.models import Product, Brand, Review
+from orders.models import Order
 
 
 
@@ -62,3 +65,28 @@ def user_active (request,username) :
         form = UserActivateForm()
     
     return render(request, 'accounts/activate.html', {'form':form})
+
+
+
+def dashboard (request):
+    
+    new = Product.objects.filter(flag='New')
+    sale = Product.objects.filter(flag='Sale').count()
+    feature = Product.objects.filter(flag='Feature').count()
+
+
+    brand_name = []
+    brand_products = []
+    brands = Brand.objects.all().annotate(product_count=Count('product_brand')).order_by('-product_count')[:10]
+    for brand in brands:
+        brand_name.append(brand.name)
+        brand_products.append(brand.product_count)
+
+    return render (request,'accounts/dashboard.html',{
+        'new' :new,
+        'sale' :sale,
+        'feature' :feature,
+
+        'brand_name' :brand_name,
+        'brand_products' :brand_products,
+    })

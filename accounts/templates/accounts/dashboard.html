@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+    
+{% endblock css %}
+    
+
+
+{% block body %}
+    
+
+
+        <!--=====================================
+                    BRAND LIST PART START
+        =======================================-->
+        <section class="inner-section">
+            <div class="row">
+                <div class="col col-6">
+                    <div class="container my-5">
+                        <h4>Top 10 Brands have products</h4>
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <div class="col col-6">
+                    <div class="container my-5">
+                        <h4>Flag Status</h4>
+                        <canvas id="myChart2"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </section>
+        <!--=====================================
+                    BRAND LIST PART END
+        =======================================-->
+
+{% endblock body %}
+
+
+{% block js %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ brand_name|safe }},
+      datasets: [{
+        label: '# Brands',
+        data: {{ brand_products|safe }},
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+  const ctx2 = document.getElementById('myChart2');
+
+  new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+      labels: ['New', 'Sale', 'Feature'],
+      datasets: [{
+        label: '# of Votes',
+        data: ["{{ new | length }}", "{{sale}}", "{{feature}}"],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+</script>
+    
+{% endblock js %}
+    
