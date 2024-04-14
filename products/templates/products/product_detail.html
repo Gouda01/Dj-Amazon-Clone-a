@@ -96,7 +96,7 @@
 
                                 
                                 {% if object.quantity > 0 %}
-                                    <form action="/orders/add-to-cart" method="post" class="row">
+                                    <form action="/orders/add-to-cart" method="post" class="row" id="addToCart">
                                         {% csrf_token %}
                                         <div class="col-lg-6">
                                             <input type="number" class="action-input" name="quantity" value="1">
@@ -295,6 +295,27 @@
                     }
                 })
             })
+
+            $(document).on('submit','#addToCart',function(event){
+                // No Refresh Browser
+                event.preventDefault()
+
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success:function(response){
+                        $('#cart_sidebar').html(response['result'])
+                        $('#cartTotal').text(response['total'])
+                        $('#cartCount').text(response['cart_count'])
+                    },
+                    error:function(){
+                        
+                    }
+                })
+            })
+
         })
 
     </script>

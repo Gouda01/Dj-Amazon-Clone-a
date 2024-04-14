@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 import datetime
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 from .models import Order, OrderDetail, Cart, CartDetail, Coupon
 from products.models import Product
@@ -61,6 +63,25 @@ def checkout(request):
         })
 
 
+# Add To cart Before use ajax :
+
+# def add_to_cart(request) :
+#     product = Product.objects.get(id= request.POST['product_id'])
+#     quantity = int(request.POST['quantity'])
+
+#     cart = Cart.objects.get(user=request.user, status='Inprogress')
+#     cart_detail , created = CartDetail.objects.get_or_create(cart=cart,product=product)
+
+#     # if not created :
+#     #     cart_detail.quantity = cart_detail.quantity + quantity
+
+#     cart_detail.quantity = quantity
+#     cart_detail.total = round(product.price * cart_detail.quantity , 2 )
+#     cart_detail.save()
+
+#     return redirect(f'/products/{product.slug}')
+
+
 
 
 def add_to_cart(request) :
@@ -77,4 +98,12 @@ def add_to_cart(request) :
     cart_detail.total = round(product.price * cart_detail.quantity , 2 )
     cart_detail.save()
 
-    return redirect(f'/products/{product.slug}')
+    
+    # Get new data after create :
+    cart = Cart.objects.get(user=request.user, status='Inprogress')
+    cart_detail = CartDetail.objects.filter(cart=cart)
+    total = cart.cart_total
+    cart_count = len(cart_detail)
+
+    page = render_to_string('includes/cart_detail.html', {'cart_data':cart , 'cart_detail_data':cart_detail,})
+    return JsonResponse({'result':page,'total':total,'cart_count':cart_count,})
