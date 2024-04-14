@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.db.models.aggregates import Count
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 
 from .models import Product, Brand, Review, ProductImages
 
@@ -46,6 +49,23 @@ class BrandDetail (ListView) :
         return context
     
     
+# Add Reviews Before use ajax :
+
+# def add_review (request,slug):
+#     product = Product.objects.get(slug=slug)
+#     review = request.POST.get('review')
+#     rate = request.POST.get('rating')
+
+#     Review.objects.create (
+#         user = request.user,
+#         product = product,
+#         review = review,
+#         rate = rate,
+#     )
+
+
+#     return redirect(f'/products/{slug}/')
+
 
 
 def add_review (request,slug):
@@ -60,5 +80,8 @@ def add_review (request,slug):
         rate = rate,
     )
 
-    return redirect(f'/products/{slug}/')
-
+    
+    #Get all reviews for this product :
+    reviews = Review.objects.filter(product=product)
+    page = render_to_string('includes/reviews.html', {'reviews':reviews})
+    return JsonResponse({'result':page})
