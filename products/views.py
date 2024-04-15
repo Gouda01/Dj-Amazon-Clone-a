@@ -85,3 +85,22 @@ def add_review (request,slug):
     reviews = Review.objects.filter(product=product)
     page = render_to_string('includes/reviews.html', {'reviews':reviews})
     return JsonResponse({'result':page})
+
+
+
+
+
+def get_brand_products(request) :
+    brands = Brand.objects.all()
+
+    context = {
+        'brands': brands,
+        }
+    return render(request, 'products/test/get_brand_products.html', context)
+
+
+def get_product_list (request):
+    brand_id = request.GET.get('brand_id')
+    products = Product.objects.filter(brand_id=brand_id)
+    page = render_to_string('products/test/includes/products-list.html', {'products':products})
+    return JsonResponse({'result':page})

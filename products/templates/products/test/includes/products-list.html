@@ -1,0 +1,6 @@
+<select class="form-select" aria-label="Default select example">
+    <option selected disabled>Select Product</option>
+    {% for product in products %}
+      <option>{{ product }}</option>
+    {% endfor %}
+</select>
